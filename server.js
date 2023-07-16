@@ -16,7 +16,6 @@ app.use(express.json())//helps process objects submitted in our forms
 app.use(express.urlencoded({extended: true}))//helps form data come through correctly. without this only an empty object is sent to controllers.
 app.use(express.static('public')) //tells server which files we want to serve to browser, e.g. image files, css, stored in folder called 'public'
 app.set('view engine', 'ejs') //setting up our view engine - EJS
-
 app.use('/', catRoutes) //tell server what to do when someone visits homepage; "use" is a middleware method
 
 //don't want app to start unless connection established to MongoDB

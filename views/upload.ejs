@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Add STYLESHEET -->
+</head>
+<body>
+  <div>
+    <ul>
+        <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="/upload">Upload</a>
+        </li>
+    </ul>
+  </div>
+
+  <div>
+    <div>
+      <div>
+        <h2>Upload a Cat</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data"> <!--enctype allows a image to be submitted in form-->
+          <div>
+            <label for="name"></label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div>
+            <label for="age"></label>
+            <input type="number" id="age" name="age" required>
+          </div>
+          <div>
+            <label for="favoriteFood"></label>
+            <input type="text" id="favoriteFood" name="favoriteFood" required>
+          </div>
+          <div>
+            <label for="funFact"></label>
+            <input type="text" id="funFact" name="funFact" required>
+          </div>
+          <div>
+            <label for="image"></label>
+            <input type="file" id="image" name="image" required>
+          </div>
+          <button type="submit"></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
