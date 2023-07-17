@@ -7,10 +7,11 @@ router
   .route('/')
   .get(catController.getAllCats)
 
-//upload router to load upload page
-// router
-//   .route('/upload')
-//   .get(catController.uploadPage)
+// upload router to load upload page
+router
+  .route('/upload')
+  .get(catController.uploadPage)
+  .post(catController.upload.single('image'), catController.createCat) //multer method to handle the image
 
 // //edit router to load edit page
 // router
