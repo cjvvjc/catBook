@@ -49,9 +49,42 @@ const createCat = async (req, res) => {
   }
 }
 
+//function to display the page to update/edit an uploaded cat
+const editPage = async (req, res) => {
+  try {
+    const cat = await Cat.findById(req.params.id)
+    res.render('edit', {cat:cat})
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+//function to update/edit cat in database
+const updateCat = async (req, res) => {
+  try {
+    await Cat.findByIdAndUpdate(req.params.id, req.body) //req.params.id is what we're looking for and req.body is the stuff used to update the db entry
+    res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+//function to delete a cat from the db
+const deleteCat = async (req, res) => {
+  try {
+    await Cat.findByIdAndRemove(req.params.id)
+    res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   getAllCats,
   upload,
   uploadPage,
-  createCat
+  createCat,
+  editPage,
+  updateCat,
+  deleteCat
 }
