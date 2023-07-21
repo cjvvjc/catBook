@@ -18,8 +18,8 @@ const upload = multer({ storage: storage });
 //goes in to db, gets all cats, render the homepate, and pass the cats into homepage
 const getAllCats = async (req, res) => {
   try {
-    const cats = await Cat.find() //goes into Cats collection and gets everything
-    res.render('home', {cats: cats})
+    const cats = await Cat.find().populate('owner') //goes into Cats collection and gets everything and gets info about owner from other Schema
+    res.render('home', {cats: cats, user: req.user})
   } catch(err) {
     console.log(err)
   }
@@ -38,7 +38,8 @@ const createCat = async (req, res) => {
       age: req.body.age,
       favoriteFood: req.body.favoriteFood,
       funFact: req.body.funFact,
-      image: req.file.filename //multer places the file info in req.file
+      image: req.file.filename, //multer places the file info in req.file
+      owner: req.user._id //grab whatever user is logged in and attach them to owner field
   })
 
   await cat.save() //mongoose method to save object to db
@@ -62,7 +63,11 @@ const editPage = async (req, res) => {
 //function to update/edit cat in database
 const updateCat = async (req, res) => {
   try {
-    await Cat.findByIdAndUpdate(req.params.id, req.body) //req.params.id is what we're looking for and req.body is the stuff used to update the db entry
+    //validate that id of person editing is equal to id of person associated with cat
+    let cat = await Cat.findById(req.params.id)
+    if(cat.owner.equals(req.user._id)){
+      await Cat.findByIdAndUpdate(req.params.id, req.body) //req.params.id is what we're looking for and req.body is the stuff used to update the db entry
+    }
     res.redirect('/')
   } catch (err) {
     console.log(err)
@@ -72,7 +77,10 @@ const updateCat = async (req, res) => {
 //function to delete a cat from the db
 const deleteCat = async (req, res) => {
   try {
-    await Cat.findByIdAndRemove(req.params.id)
+    let cat = await Cat.findById(req.params.id)
+    if(cat.owner.equals(req.user._id)){ 
+      await Cat.findByIdAndRemove(req.params.id)
+    }
     res.redirect('/')
   } catch (err) {
     console.log(err)

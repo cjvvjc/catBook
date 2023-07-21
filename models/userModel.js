@@ -6,4 +6,4 @@ const UserSchema = new Schema({})
 
 UserSchema.plugin(passportLocalMongoose) //passport local mongoose creates the Schema for us
 
-module.exports = mongoose.model('Users', UserSchema)
+module.exports = mongoose.model('User', UserSchema)
