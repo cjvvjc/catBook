@@ -29,6 +29,21 @@ app.use(session)({
     saveUninitialized: false
 })  //keep user session active while logged in - prevents the need to relogin every new page load
 
+app.use(passport.initialize()) //turning passport on
+app.use(passport.session()) //turning session on
+
+passport.use(new LocalStrategy(User.authenticate()))  //setting up passport local strategy in middleware. passport is calling on User model doing authentication using the local strategy. telling passport what to tell mongoose to store in User.
+//making password safe for storage by serialize user and deserialize user
+passport.serializeUser(User.serializeUser) //call on user model and serialize it (scrambler)
+passport.deserializeUser(User.deserializeUser) //call on user modeal and deserialize it (unscrambler)
+
+//add information to messages passing back and forth
+//passing current user info to all routes
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user
+    next()
+})
+
 //don't want app to start unless connection established to MongoDB
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB') //once connection is open, console.log('')
