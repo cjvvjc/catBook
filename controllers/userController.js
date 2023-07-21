@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
     const {username, password} = req.body; //taking info from form and putting into db. destructuring username and password variables
 
     const user = new User({username}); //create new instance of User model passing in user name
-    await User.register(user, password); //using passport register the new user
+    await User.register(username, password); //using passport register the new user !!!*** CHANGED "user" to "username" seems to be working
     passport.authenticate('local')(req, res, function() { // automatically login user: authenticate user and redirect to home page
       res.redirect('/');
     })
