@@ -27,7 +27,7 @@ const getAllCats = async (req, res) => {
 
 //controller to handle upload page and put cat in database
 const uploadPage = (req, res) => {
-  res.render('upload')
+  res.render('upload', {user: req.user})
 }
 
 //function to create a new cat, write to the database
@@ -54,7 +54,7 @@ const createCat = async (req, res) => {
 const editPage = async (req, res) => {
   try {
     const cat = await Cat.findById(req.params.id)
-    res.render('edit', {cat:cat})
+    res.render('edit', {cat:cat, user: req.user})
   } catch (err) {
     console.log(err)
   }
